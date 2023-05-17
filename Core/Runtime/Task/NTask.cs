@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NBC
 {
@@ -162,11 +163,37 @@ namespace NBC
         protected void CallCompleteListener(TaskStatus taskStatus)
         {
             OnCompleteListener?.Invoke(this);
+
+            _taskCompletionSource?.TrySetResult(null);
         }
 
         protected void CallUpdateListener()
         {
             OnUpdateListener?.Invoke(this);
+        }
+
+        #endregion
+
+        #region 异步编程相关
+
+        private TaskCompletionSource<object> _taskCompletionSource;
+
+        /// <summary>
+        /// 异步操作任务
+        /// </summary>
+        public Task Task
+        {
+            get
+            {
+                if (_taskCompletionSource == null)
+                {
+                    _taskCompletionSource = new TaskCompletionSource<object>();
+                    if (IsDone)
+                        _taskCompletionSource.SetResult(null);
+                }
+
+                return _taskCompletionSource.Task;
+            }
         }
 
         #endregion
