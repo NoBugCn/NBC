@@ -1,0 +1,20 @@
+{
+  "name": "com.nobug.nbc",
+  "version": "1.0.0",
+  "displayName": "NBC",
+  "description": "NoBug Game Framework",
+  "keywords": [
+    "NoBug",
+    "NoBug Client Framework",
+    "NBC"
+  ],
+  "documentationUrl": "https://github.com/NoBugCn/NBC",
+  "changelogUrl": "https://github.com/NoBugCn/NBC",
+  "author": {
+    "name": "NoBug",
+    "url": "https://nobug.cn"
+  },
+  "type": "library",
+  "dependencies": {
+  }
+}
