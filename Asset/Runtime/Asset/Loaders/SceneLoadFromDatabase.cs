@@ -65,7 +65,7 @@ namespace NBC.Asset
             else if (_steps == Steps.LoadSyncScene)
             {
                 var offset = Time.time - _syncLoadTime;
-                if (offset > 1f) //防止无限等待
+                if (offset > 5f) //防止无限等待
                 {
                     CheckLoadStatus();
                 }
