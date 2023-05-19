@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,6 +16,7 @@ namespace NBC.Asset
         {
             LoadDependency,
             LoadScene,
+            LoadSyncScene
         }
 
         private bool _isWaitForAsyncComplete;
@@ -22,6 +24,7 @@ namespace NBC.Asset
         private AssetInfo _assetInfo;
         private Steps _steps = Steps.LoadDependency;
         private AsyncOperation _asyncOperation;
+        private float _syncLoadTime;
 
         public void Start(SceneProvider provider)
         {
@@ -41,24 +44,35 @@ namespace NBC.Asset
                 };
                 if (_isWaitForAsyncComplete)
                 {
-                    UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode(scenePath, loadSceneParameters);
-                    SetStatus();
+                    EditorSceneManager.LoadSceneInPlayMode(scenePath, loadSceneParameters);
+                    EditorSceneManager.sceneOpened += (scene, mode) => { CheckLoadStatus(); };
+                    _syncLoadTime = Time.time;
+                    // UnityEditor.SceneManagement.EditorSceneManager.
+                    _steps = Steps.LoadSyncScene;
                 }
                 else
                 {
-                    _asyncOperation =
-                        UnityEditor.SceneManagement.EditorSceneManager.LoadSceneAsyncInPlayMode(scenePath,
-                            loadSceneParameters);
+                    _asyncOperation = EditorSceneManager.LoadSceneAsyncInPlayMode(scenePath,
+                        loadSceneParameters);
                     _steps = Steps.LoadScene;
                 }
             }
             else if (_steps == Steps.LoadScene)
             {
                 if (!_asyncOperation.isDone) return;
-                SetStatus();
+                CheckLoadStatus();
+            }
+            else if (_steps == Steps.LoadSyncScene)
+            {
+                var offset = Time.time - _syncLoadTime;
+                if (offset > 1f) //防止无限等待
+                {
+                    CheckLoadStatus();
+                }
             }
 #endif
         }
+
 
         public void WaitForAsyncComplete()
         {
@@ -82,7 +96,15 @@ namespace NBC.Asset
 
         public void Destroy()
         {
-            
+        }
+
+        private void CheckLoadStatus()
+        {
+            var scene = SceneManager.GetActiveScene();
+            if (scene.path == _assetInfo.Path)
+            {
+                SetStatus();
+            }
         }
 
         private void SetStatus()
