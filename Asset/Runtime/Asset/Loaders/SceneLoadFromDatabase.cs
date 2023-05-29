@@ -45,7 +45,7 @@ namespace NBC.Asset
                 if (_isWaitForAsyncComplete)
                 {
                     EditorSceneManager.LoadSceneInPlayMode(scenePath, loadSceneParameters);
-                    SceneManager.sceneLoaded += (scene, mode) => { CheckLoadStatus(); };
+                    EditorSceneManager.sceneOpened += (scene, mode) => { CheckLoadStatus(); };
                     _syncLoadTime = Time.time;
                     // UnityEditor.SceneManagement.EditorSceneManager.
                     _steps = Steps.LoadSyncScene;
