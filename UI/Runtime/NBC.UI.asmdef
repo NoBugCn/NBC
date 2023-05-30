@@ -1,0 +1,18 @@
+{
+    "name": "NBC.UI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e4250f929377ef4438976bd2fe047dde",
+        "GUID:3f4a88279c0696a488a2e08f8bccf903",
+        "GUID:b81f0a42ffb056747bb59b01c88ee185"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

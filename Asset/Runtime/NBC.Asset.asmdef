@@ -1,0 +1,16 @@
+{
+    "name": "NBC.Asset",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e4250f929377ef4438976bd2fe047dde"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,17 @@
+{
+    "name": "NBC.Asset.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3f4a88279c0696a488a2e08f8bccf903",
+        "GUID:e4250f929377ef4438976bd2fe047dde"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

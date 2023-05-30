@@ -1,0 +1,16 @@
+{
+    "name": "FairyGUI.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b81f0a42ffb056747bb59b01c88ee185"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
