@@ -8,6 +8,8 @@ namespace NBC.Asset
         public const string BundleDirName = "Bundles";
         public const string VersionFileName = "version.json";
 
+        public static bool IsWebGLPlatform => Application.platform == RuntimePlatform.WebGLPlayer;
+        
         public static readonly string SavePath =
             $"{Application.persistentDataPath}{Path.DirectorySeparatorChar}{BundleDirName}{Path.DirectorySeparatorChar}";
 
@@ -39,6 +41,10 @@ namespace NBC.Asset
 
         public static string GetRemotePath(string file)
         {
+            if (!Application.isEditor && IsWebGLPlatform)
+            {
+                return $"{RemoteUrl}/{file}";
+            }
             return $"{RemoteUrl}{BundleDirName}/{file}";
         }
     }

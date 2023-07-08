@@ -356,6 +356,11 @@ namespace NBC.Asset
                 task = new OnlineInitializationTask();
             }
 
+            if (Const.IsWebGLPlatform)
+            {
+                Const.RemoteUrl = $"{Application.streamingAssetsPath}/";
+            }
+            
             task.OnCompleted(InitDone);
             task.Run(TaskRunner.Def);
             _isInitialize = true;
