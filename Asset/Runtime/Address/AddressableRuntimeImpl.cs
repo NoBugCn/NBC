@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEngine;
 
 namespace NBC.Asset
 {
@@ -49,8 +50,11 @@ namespace NBC.Asset
             if (!_assetInfos.TryGetValue(guid, out var info))
             {
                 var data = _versionDataReader.GetAsset(path);
-                info = new AssetInfo(data, type);
-                _assetInfos[info.GUID] = info;
+                if (data != null)
+                {
+                    info = new AssetInfo(data, type);
+                    _assetInfos[info.GUID] = info;
+                }
             }
 
             return info;
@@ -145,8 +149,9 @@ namespace NBC.Asset
             {
                 return BundleLoadMode.LoadFromCache;
             }
-
-            if (File.Exists(bundleData.StreamingFilePath))
+            
+            
+            if (StreamingAssetsUtil.FileExists(bundleData.NameHash))
             {
                 return BundleLoadMode.LoadFromStreaming;
             }

@@ -37,7 +37,10 @@ namespace NBC.Asset.Editor
         {
             _selectTag = selectTag;
             _labels = new List<string>();
-            _labels.AddRange(selectTag.ShowTags.Split(","));
+            if (!string.IsNullOrEmpty(selectTag.ShowTags))
+            {
+                _labels.AddRange(selectTag.ShowTags.Split(","));
+            }
             _labels.Remove(string.Empty);
             _searchField = new SearchField();
             _activatorRect = activatorRect;

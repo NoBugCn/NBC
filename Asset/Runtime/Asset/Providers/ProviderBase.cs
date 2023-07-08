@@ -24,7 +24,7 @@ namespace NBC.Asset
             _errorMsg = info;
         }
 
-        internal void Run()
+        internal virtual void Run()
         {
             Retain();
             if (!IsDone && !IsRunning)

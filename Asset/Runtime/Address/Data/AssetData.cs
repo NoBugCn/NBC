@@ -15,10 +15,10 @@ namespace NBC.Asset
         /// </summary>
         public int Dir;
 
-        /// <summary>
-        /// 依赖的bundle
-        /// </summary>
-        public List<int> Deps = new List<int>();
+        // /// <summary>
+        // /// 依赖的bundle
+        // /// </summary>
+        // public List<int> Deps = new List<int>();
 
         /// <summary>
         /// 资源可寻址地址

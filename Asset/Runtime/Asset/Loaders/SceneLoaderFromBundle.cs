@@ -28,10 +28,30 @@ namespace NBC.Asset
         public void Start(SceneProvider provider)
         {
             _provider = provider;
-            _assetInfo = provider.AssetInfo;
+            var newAsset = true;
+            if (_assetInfo == null)
+            {
+                _assetInfo = provider.AssetInfo;
+            }
+            else
+            {
+                if (_assetInfo.GUID == provider.AssetInfo.GUID)
+                {
+                    newAsset = false;
+                }
+                else
+                {
+                    _assetInfo = provider.AssetInfo;
+                }
+            }
 
-            _dependency = Dependency.GetAssetDependency(_assetInfo);
-            _dependency.Retain();
+            if (newAsset || _dependency == null)
+            {
+                _dependency = Dependency.GetAssetDependency(_assetInfo);
+                _dependency.Retain();
+            }
+
+            _steps = Steps.LoadDependency;
         }
 
         public void Update()

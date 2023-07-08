@@ -10,7 +10,9 @@ namespace NBC.Asset
     {
         private UpdateContext _context;
         private SequenceTaskCollection _sequence = new SequenceTaskCollection();
-
+        private ParallelTaskCollection _downloadParallel = new ParallelTaskCollection();
+        public override float Progress => _downloadParallel.Progress;
+        
         public UpdateVersionTask(UpdateContext context)
         {
             _context = context;
@@ -18,19 +20,21 @@ namespace NBC.Asset
 
         protected override void OnStart()
         {
-            ParallelTaskCollection downloadParallel = new ParallelTaskCollection();
+            _sequence.FailBreak = true;
+            _downloadParallel.ParallelNum = 5;
+            _downloadParallel.FailBreak = true;
             var bundles = _context.NeedUpdateBundleList;
             if (bundles != null && bundles.Count > 0)
             {
                 foreach (var bundle in bundles)
                 {
-                    downloadParallel.AddTask(new DownloadFileTask(bundle.RemoteDataFilePath,
+                    _downloadParallel.AddTask(new DownloadFileTask(bundle.RemoteDataFilePath,
                         bundle.CachedDataFilePath));
                 }
-                
-                _sequence.AddTask(downloadParallel);
+
+                _sequence.AddTask(_downloadParallel);
             }
-            
+
             _sequence.AddTask(new RunFunctionTask(TryCoverNewVersionData));
             _sequence.AddTask(new RunFunctionTask(Addressable.Load));
 
@@ -39,7 +43,7 @@ namespace NBC.Asset
 
         protected override TaskStatus OnProcess()
         {
-            return _sequence.IsDone ? TaskStatus.Success : TaskStatus.Running;
+            return _sequence.IsDone ? _sequence.Status : TaskStatus.Running;
         }
 
         /// <summary>

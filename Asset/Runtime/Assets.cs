@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +23,21 @@ namespace NBC.Asset
 
             return InitConfirm();
         }
+
+        #region 资源清理
+
+        /// <summary>
+        /// 清理所有缓存
+        /// </summary>
+        public static void ClearAllCache()
+        {
+            if (Directory.Exists(Const.SavePath))
+            {
+                Directory.Delete(Const.SavePath, true);
+            }
+        }
+
+        #endregion
 
         #region 资源加载
 
@@ -79,6 +95,11 @@ namespace NBC.Asset
         public static SceneProvider LoadScene(string path, bool additive = false)
         {
             var assetInfo = Addressable.GetAssetInfo(path, typeof(Scene));
+            if (assetInfo == null)
+            {
+                throw new Exception($"Scene is null,path={path}");
+            }
+
             return SceneProvider.GetSceneProvider(assetInfo, additive);
         }
 

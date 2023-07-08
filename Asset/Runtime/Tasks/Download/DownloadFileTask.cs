@@ -91,7 +91,8 @@ namespace NBC.Asset
             {
                 if (_header == null)
                 {
-                    Fail($"not file");
+                    Fail($"get header info error");
+                    Debug.LogError("get header info error");
                     return TaskStatus.Fail;
                 }
 
@@ -128,7 +129,7 @@ namespace NBC.Asset
                 _content = UnityWebRequest.Get(DownloadPath);
                 if (_fileOriginLength > 0)
                 {
-                    Debug.Log($"断点续传===={_fileOriginLength}");
+                    Debug.Log($"断点续传===={_fileOriginLength} path={DownloadPath}");
 #if UNITY_2019_1_OR_NEWER
                     _content.SetRequestHeader("Range", $"bytes={_fileOriginLength}-");
                     _content.downloadHandler = new DownloadHandlerFile(SavePath, true);
@@ -182,7 +183,7 @@ namespace NBC.Asset
                     RetryCount++;
                     if (RetryCount <= RetryDownloadCount)
                     {
-                        Debug.Log($"重新开始下载={DownloadPath}");
+                        Debug.Log($"网络异常 重新开始下载={DownloadPath} code={ResponseCode} msg={_content.error}");
                         //重新开始下载
                         DownloadStatus = DownLoadStatus.PrepareDownload;
                     }
@@ -197,12 +198,11 @@ namespace NBC.Asset
                 {
                     DownloadStatus = DownLoadStatus.VerifyingFile;
                 }
-
-                Dispose();
             }
 
             if (DownloadStatus == DownLoadStatus.VerifyingFile)
             {
+                Dispose();
                 var tryPass = false;
                 var tempInfo = new FileInfo(SavePath);
 
@@ -275,7 +275,7 @@ namespace NBC.Asset
             }
 
             float offset = Time.realtimeSinceStartup - _latestDownloadRealtime;
-            if (offset > Const.DownloadTimeOut)
+            if (_latestDownloadRealtime > 0 && offset > Const.DownloadTimeOut)
             {
                 _content.Abort();
                 _isAbort = true;

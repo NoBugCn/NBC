@@ -8,7 +8,7 @@ namespace NBC.Asset
     public class CheckUnpackPackageTask : NTask
     {
         private readonly ParallelTaskCollection _taskList = new ParallelTaskCollection();
-        private bool _download;
+        private readonly bool _download;
 
         public CheckUnpackPackageTask(bool download = false)
         {
@@ -17,7 +17,6 @@ namespace NBC.Asset
 
         protected override void OnStart()
         {
-            var p = Const.GetCachePath(Const.VersionFileName);
             var versionData = Util.ReadJson<VersionData>(Const.GetCachePath(Const.VersionFileName));
             if (versionData != null)
             {

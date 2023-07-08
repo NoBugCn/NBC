@@ -201,7 +201,16 @@ namespace NBC.Asset.Editor
                     }
                 }
 
-                filePaths.Sort();
+                filePaths.Sort((a, b) =>
+                {
+                    var fName1 = Path.GetFileNameWithoutExtension(a);
+                    var fName2 = Path.GetFileNameWithoutExtension(b);
+                    var index1 = fName1.Replace("version_", "");
+                    var index2 = fName2.Replace("version_", "");
+                    int.TryParse(index1, out var i1);
+                    int.TryParse(index2, out var i2);
+                    return i1 - i2;
+                });
                 filePaths.Reverse();
                 foreach (var file in filePaths)
                 {

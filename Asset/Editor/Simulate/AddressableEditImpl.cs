@@ -67,13 +67,19 @@ namespace NBC.Asset.Editor
         
         public AssetInfo GetAssetInfo(string path, Type type)
         {
-            // path = _versionDataReader.GetAssetRealPath(path);
+            if (_addressablePath.TryGetValue(path, out var pathReal))
+            {
+                path = pathReal;
+            }
             var guid = Util.GetAssetGUID(path, type);
             if (!_assetInfos.TryGetValue(guid, out var info))
             {
                 var data = GetAsset(path);
-                info = new AssetInfo(data, type);
-                _assetInfos[info.GUID] = info;
+                if (data != null)
+                {
+                    info = new AssetInfo(data, type);
+                    _assetInfos[info.GUID] = info;
+                }
             }
 
             return info;
@@ -144,16 +150,23 @@ namespace NBC.Asset.Editor
                 bundleData.Hash = bundle.Hash;
                 bundleData.Size = bundle.Size;
                 _bundles[bundle.Name] = bundleData;
-
-                foreach (var asset in bundle.Assets)
+            }
+            
+            foreach (var asset in caches.Assets)
+            {
+                var path = asset.Path;
+                if (string.IsNullOrEmpty(path)) continue;
+                AssetData assetData = new AssetData();
+                assetData.Name = Path.GetFileName(path);
+                assetData.Path = path;
+                assetData.BundleName = asset.Bundle;
+                _assets[path] = assetData;
+                //没后缀的默认加入地址 .prefab
+                var ext = Path.GetExtension(path);
+                var fileName = path.Replace(ext, "");
+                _addressablePath[fileName] = assetData.Path;
+                if (assetData.Address != null)
                 {
-                    var path = asset.Path;
-                    if (string.IsNullOrEmpty(path)) continue;
-                    AssetData assetData = new AssetData();
-                    assetData.Name = Path.GetFileName(path);
-                    assetData.Path = path;
-                    assetData.BundleName = asset.Bundle;
-                    _assets[path] = assetData;
                     _addressablePath[assetData.Address] = assetData.Path;
                 }
             }

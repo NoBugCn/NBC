@@ -100,7 +100,7 @@ namespace NBC.Asset.Editor
                 Type = type == null ? "Missing" : type.Name,
                 Tags = GroupConfig.Tags,
                 Group = GroupConfig,
-                Dependencies = GetDependencies(path)
+                // Dependencies = GetDependencies(path)
             };
             return ret;
         }

@@ -49,6 +49,14 @@ namespace NBC.Asset
             _loader = null;
         }
 
+        internal override void Run()
+        {
+            Retain();
+            if (!IsRunning)
+            {
+                Run(TaskRunner.ProviderRunner);
+            }
+        }
         #region Static
 
         private static readonly List<SceneProvider> _scenes = new List<SceneProvider>();

@@ -47,7 +47,8 @@ namespace NBC.Asset
             {
                 if (_getVersionFileTask == null)
                 {
-                    _getVersionFileTask = new DownloadFileTask(Const.GetRemotePath(Const.VersionFileName),
+                    _getVersionFileTask = new DownloadFileTask(
+                        Const.GetRemotePath($"{Const.VersionFileName}?t={Util.GetTimestamp()}"),
                         Const.GetCacheTempPath(Const.VersionFileName));
                     _getVersionFileTask.ReDownload = false;
                     _getVersionFileTask.Run();

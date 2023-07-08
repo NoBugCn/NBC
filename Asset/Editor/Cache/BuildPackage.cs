@@ -79,15 +79,15 @@ namespace NBC.Asset.Editor
                     // Tags = EditUtil.GetTagsArr(asset.Tags),
                     Bundle = GetBundleIndex(asset.Bundle)
                 };
-                if (asset.Dependencies != null && asset.Dependencies.Length > 0)
-                {
-                    foreach (var dependency in asset.Dependencies)
-                    {
-                        var index = GetAssetIndex(dependency);
-                        if (index >= 0)
-                            a.Deps.Add(index);
-                    }
-                }
+                // if (asset.Dependencies != null && asset.Dependencies.Length > 0)
+                // {
+                //     foreach (var dependency in asset.Dependencies)
+                //     {
+                //         var index = GetAssetIndex(dependency);
+                //         if (index >= 0)
+                //             a.Deps.Add(index);
+                //     }
+                // }
 
                 packageData.Assets.Add(a);
             }

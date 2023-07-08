@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace NBC.Asset
 
         public string GetAssetRealPath(string path)
         {
-            return _addressablePath.TryGetValue(path, out var p) ? p : path;
+            return _addressablePath.TryGetValue(path, out var realPath) ? realPath : path;
         }
 
         public AssetData GetAsset(string path)
@@ -117,6 +118,9 @@ namespace NBC.Asset
                     asset.Path = $"{dir}/{asset.Name}";
                     asset.BundleName = bundle.Name;
                     _assets[asset.Path] = asset;
+                    var filePath = $"{dir}/{Path.GetFileNameWithoutExtension(asset.Name)}";
+                    //去除后缀后，默认加入寻址
+                    _addressablePath[filePath] = asset.Path;
                     if (asset.Address != asset.Path)
                     {
                         _addressablePath[asset.Address] = asset.Path;

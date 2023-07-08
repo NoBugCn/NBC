@@ -83,6 +83,7 @@ namespace NBC.Asset
 
         internal static AssetProvider GetAssetProvider(AssetInfo assetInfo, bool isAll = false)
         {
+            if (assetInfo == null) return null;
             AssetProvider provider = null;
             foreach (var asset in _assets)
             {

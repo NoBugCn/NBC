@@ -32,10 +32,10 @@ namespace NBC.Asset.Editor
         /// </summary>
         public string Tags;
 
-        /// <summary>
-        /// 资源依赖
-        /// </summary>
-        public string[] Dependencies = Array.Empty<string>();
+        // /// <summary>
+        // /// 资源依赖
+        // /// </summary>
+        // public string[] Dependencies = Array.Empty<string>();
 
         /// <summary>
         /// 资源所属组

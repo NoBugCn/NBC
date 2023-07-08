@@ -11,7 +11,7 @@
         protected override void OnStart()
         {
             _taskList.AddTask(new CheckCoverInstallTask());
-            _taskList.AddTask(new UnpackFileTask(Const.VersionFileName));
+            _taskList.AddTask(new UnpackVersionTask());
             _taskList.AddTask(new CheckUnpackPackageTask());
             _taskList.AddTask(new RunFunctionTask(Addressable.Load));
             _taskList.Run(TaskRunner.Def);

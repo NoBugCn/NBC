@@ -124,32 +124,11 @@ namespace NBC.Asset
         /// <returns></returns>
         private static IAddressableImpl GetAddressableEditImpl()
         {
-            var type = GetEditorImplType();
-            if (type == null)
-            {
-                throw new Exception("Editor Addressable Impl is null");
-            }
-
+            var ass = AppDomain.CurrentDomain.GetAssemblies()
+                .First(assembly => assembly.GetName().Name == "NBC.Asset.Editor");
+            var type = ass.GetType("NBC.Asset.Editor.AddressableEditImpl");
             var manifestFilePath = InvokePublicStaticMethod(type, "CreateInstance") as IAddressableImpl;
             return manifestFilePath;
-        }
-
-        private static Type GetEditorImplType()
-        {
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-            foreach (Assembly ass in assemblies)
-            {
-                foreach (Type type in ass.GetTypes())
-                {
-                    if (type.FullName == "NBC.Asset.Editor.AddressableEditImpl")
-                    {
-                        return type;
-                    }
-                }
-            }
-
-            return null;
         }
 
         private static object InvokePublicStaticMethod(System.Type type, string method, params object[] parameters)

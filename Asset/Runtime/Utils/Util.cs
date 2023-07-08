@@ -8,6 +8,11 @@ namespace NBC.Asset
 {
     public static class Util
     {
+        public static long GetTimestamp()
+        {
+            var timeSpan = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(timeSpan.TotalSeconds);
+        }
         public static DateTime TimestampToTime(long timestamp)
         {
             DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
